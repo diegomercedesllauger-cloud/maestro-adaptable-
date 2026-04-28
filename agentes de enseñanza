@@ -1,1 +1,226 @@
+AGENTE 1: Student Profiler
+
+# Hace preguntas diagnósticas:
+"¿Qué sabes de ciberseguridad?"
+- Opción A: Nada (0 puntos)
+- Opción B: Conceptos básicos (5 puntos)
+- Opción C: Intermedio (8 puntos)
+
+# Luego calcula:
+nivel_estudiante = promedio_respuestas
+aprendizaje_style = "visual" | "lectura" | "práctica"
+tiempo_disponible = horas_por_semana
+
+Salida:
+
+{
+  "id_estudiante": 1,
+  "nivel": "PRINCIPIANTE",
+  "estilo_aprendizaje": "PRÁCTICA",
+  "horas_semana": 10,
+  "fortalezas": ["lógica", "programación"],
+  "debilidades": ["redes", "criptografía"],
+  "metas": ["aprobar clase", "conseguir internship"]
+}
+
+
+AGENTE 2: Learning Path Optimizer
+
+# Todos los módulos disponibles:
+modulos_disponibles = [
+    "Introducción a Redes",
+    "Protocolos TCP/IP",
+    "Criptografía Básica",
+    "Autenticación",
+    "Firewalls",
+    "Detección de Intrusiones",
+    "Análisis de Malware"
+]
+
+# Tu perfil:
+nivel = "PRINCIPIANTE"
+tiempo = 10 horas/semana
+fortalezas = ["programación"]
+debilidades = ["redes"]
+
+# EL AGENTE CREA ESTA RUTA:
+ruta_personalizada = [
+    {
+        "semana": 1,
+        "modulos": ["Introducción a Redes"],  # Necesario
+        "duracion": 8_horas,
+        "razon": "Necesario antes de Protocolos"
+    },
+    {
+        "semana": 2,
+        "modulos": ["Protocolos TCP/IP"],
+        "duracion": 8_horas,
+        "razon": "Base para entender ataques"
+    },
+    {
+        "semana": 3,
+        "modulos": ["Criptografía Básica"],  # Tu debilidad
+        "duracion": 10_horas,  # MÁS tiempo
+        "razon": "Base fundamental, necesita más práctica"
+    },
+    # ... etc
+]
+
+# Salida: Un documento que dice:
+# "Diego, basado en tu perfil, aquí está tu ruta
+#  personalizada. Tomaremos 8 semanas. Ajustaremos
+#  según tu progreso."
+
+AGENTE 3: Content Recommender
+
+# Tu perfil dice:
+# - Estilo: PRÁCTICA
+# - Nivel: PRINCIPIANTE
+# - Tema actual: Criptografía Básica
+
+# EL AGENTE BUSCA CONTENIDO:
+contenido_recomendado = [
+    {
+        "tipo": "video",  # Porque eres visual
+        "titulo": "Introducción a AES en 10 minutos",
+        "fuente": "YouTube - Computerphile",
+        "duracion": "10 minutos",
+        "dificultad": "PRINCIPIANTE",
+        "razon": "Explica con ejemplos visuales que te encantan"
+    },
+    {
+        "tipo": "práctica",  # Porque prefieres hacer que leer
+        "titulo": "Ejercicio: Encripta tu nombre con AES",
+        "herramienta": "CryptoTools online",
+        "duracion": "20 minutos",
+        "razon": "Aprenderás haciendo, no leyendo"
+    },
+    {
+        "tipo": "lectura",  # Menos recomendado pero incluido
+        "titulo": "How AES Encryption Works (Technical Deep Dive)",
+        "fuente": "Baeldung",
+        "dificultad": "INTERMEDIO",
+        "razon": "Para cuando quieras profundizar"
+    }
+]
+
+AGENTE 4: Quiz Generator
+
+# Leíste: "Introducción a AES en 10 minutos"
+# El agente crea:
+
+preguntas_generadas = [
+    {
+        "tipo": "opcion_multiple",
+        "pregunta": "¿Cuántas rondas tiene AES-256?",
+        "opciones": [
+            "8 rondas",
+            "10 rondas",
+            "14 rondas",  # ← Correcta
+            "20 rondas"
+        ],
+        "dificultad": "FÁCIL",
+        "tiempo_limite": 30  # segundos
+    },
+    {
+        "tipo": "verdadero_falso",
+        "pregunta": "AES usa la misma clave para encriptar y desencriptar",
+        "respuesta_correcta": True,
+        "explicacion": "AES es simétrico - usa UNA sola clave"
+    },
+    {
+        "tipo": "rellenar_espacios",
+        "pregunta": "AES significa _____ _____ _____",
+        "respuesta": "Advanced Encryption Standard",
+        "pistas": [
+            "Primera palabra: Sinónimo de 'moderno'",
+            "Segunda palabra: Protección de datos",
+            "Tercera palabra: Regular"
+        ]
+    }
+]
+
+AGENTE 5: Performance Analyzer
+
+# Respondiste el quiz:
+respuestas_estudiante = {
+    "pregunta_1": "Correcta",      # AES-256 = 14 rondas
+    "pregunta_2": "Incorrecta",    # Dijiste "diferentes claves"
+    "pregunta_3": "Correcta"       # Advanced Encryption Standard
+}
+
+# EL AGENTE ANALIZA:
+analisis = {
+    "puntuación": "66.7%",
+    "conceptos_entendidos": [
+        "¿Qué es AES?",
+        "Diferencia AES-128/256"
+    ],
+    "conceptos_NO_entendidos": [
+        "Claves en criptografía simétrica"  # ← Falló aquí
+    ],
+    "retroalimentacion": {
+        "pregunta_2": "Recuerda: criptografía SIMÉTRICA usa 1 clave. ASIMÉTRICA usa 2 claves.",
+        "siguiente_paso": "Lee el artículo 'Cryptography 101' antes de continuar"
+    },
+    "recomendacion": "Repite esta sección. Necesitas 80% para avanzar."
+}
+
+AGENTE 6: Adaptive Difficulty Adjuster
+
+# Tu historial:
+historial = [
+    {"quiz": "Quiz 1", "puntuacion": 95},  # Muy fácil para ti
+    {"quiz": "Quiz 2", "puntuacion": 93},  # Muy fácil
+    {"quiz": "Quiz 3", "puntuacion": 60},  # ¡Demasiado difícil!
+]
+
+# EL AGENTE CALCULA:
+promedio_ultimos_3 = (95 + 93 + 60) / 3 = 82.67
+
+if promedio_ultimos_3 > 90:
+    dificultad_siguiente = "MÁS DIFÍCIL"
+    razon = "Dominas este nivel"
+elif promedio_ultimos_3 < 70:
+    dificultad_siguiente = "VOLVER ATRÁS"
+    razon = "Necesitas reforzar conceptos"
+else:
+    dificultad_siguiente = "IGUAL"
+    razon = "Estás en tu zona óptima"
+
+# Acción:
+print("Tu último quiz fue 60%. Eso está fuera de rango.")
+print("Volvamos atrás. Repasaremos 'Criptografía Simétrica'")
+print("Luego intentaremos de nuevo.")
+
+AGENTE 7: Prediction Engine
+
+# Tu progreso:
+progreso = {
+    "temas_completados": 8,
+    "temas_totales": 10,
+    "promedio_quizzes": 78,
+    "tiempo_dedicado": 35_horas,
+    "tiempo_recomendado": 40_horas,
+    "debilidades": ["Criptografía Asimétrica", "Firewalls"]
+}
+
+# MODELO DE PREDICCIÓN (regresión lineal simple):
+# predicción = (promedio_quizzes * 0.7) + (tiempo_dedicado / tiempo_recomendado * 0.3)
+
+prediccion = (78 * 0.7) + ((35 / 40) * 100 * 0.3)
+prediccion = 54.6 + 26.25 = 80.85
+
+print("PREDICCIÓN DE NOTA FINAL: 80.85/100")
+print("VEREDICTO: PROBABLEMENTE APRUEBES")
+print()
+print("PERO CUIDADO:")
+print("- Tienes debilidades en temas críticos")
+print("- Te falta 5 horas de estudio")
+print()
+print("PLAN FINAL:")
+print("1. Revisa 'Criptografía Asimétrica' (2 horas)")
+print("2. Resuelve 5 problemas de Firewalls (2 horas)")
+print("3. Quiz final simulado (1 hora)")
+
 
