@@ -1,0 +1,127 @@
+-- TABLA: Estudiantes
+CREATE TABLE estudiantes (
+    id_estudiante INTEGER PRIMARY KEY,
+    nombre TEXT,
+    matricula TEXT UNIQUE,
+    carrera TEXT,
+    nivel_inicial TEXT,  -- PRINCIPIANTE, INTERMEDIO, AVANZADO
+    estilo_aprendizaje TEXT,  -- VISUAL, LECTURA, PRÁCTICA
+    horas_disponibles_semana INTEGER,
+    fecha_registro TIMESTAMP,
+    fecha_ultimo_acceso TIMESTAMP
+);
+
+-- TABLA: Cursos/Temas
+CREATE TABLE cursos (
+    id_curso INTEGER PRIMARY KEY,
+    nombre TEXT,  -- "Ciberseguridad", "Python"
+    descripcion TEXT,
+    nivel_minimo TEXT,
+    duracion_estimada INTEGER  -- en horas
+);
+
+-- TABLA: Módulos (componentes de un curso)
+CREATE TABLE modulos (
+    id_modulo INTEGER PRIMARY KEY,
+    id_curso INTEGER,
+    nombre TEXT,  -- "Introducción a Redes"
+    descripcion TEXT,
+    orden_secuencia INTEGER,  -- Módulo 1, 2, 3...
+    duracion_estimada INTEGER,
+    prerequisitos TEXT,  -- JSON: ["modulo_1", "modulo_3"]
+    FOREIGN KEY (id_curso) REFERENCES cursos(id_curso)
+);
+
+-- TABLA: Contenido (videos, artículos, ejercicios)
+CREATE TABLE contenido (
+    id_contenido INTEGER PRIMARY KEY,
+    id_modulo INTEGER,
+    titulo TEXT,
+    tipo TEXT,  -- VIDEO, LECTURA, PRÁCTICA
+    url TEXT,
+    duracion_minutos INTEGER,
+    nivel_dificultad TEXT,  -- FÁCIL, MEDIO, DIFÍCIL
+    estilo_aprendizaje TEXT,  -- VISUAL, LECTURA, PRÁCTICA
+    FOREIGN KEY (id_modulo) REFERENCES modulos(id_modulo)
+);
+
+-- TABLA: Rutas de Aprendizaje (personalizado para cada estudiante)
+CREATE TABLE rutas_personalizadas (
+    id_ruta INTEGER PRIMARY KEY,
+    id_estudiante INTEGER,
+    id_curso INTEGER,
+    modulos_ordenados TEXT,  -- JSON: ["modulo_1", "modulo_2", ...]
+    fecha_creacion TIMESTAMP,
+    fecha_estimada_fin TIMESTAMP,
+    FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
+    FOREIGN KEY (id_curso) REFERENCES cursos(id_curso)
+);
+
+-- TABLA: Progreso del Estudiante
+CREATE TABLE progreso_estudiante (
+    id_progreso INTEGER PRIMARY KEY,
+    id_estudiante INTEGER,
+    id_modulo INTEGER,
+    fecha_inicio TIMESTAMP,
+    fecha_completado TIMESTAMP,
+    estado TEXT,  -- EN_PROGRESO, COMPLETADO, ABANDONADO
+    porcentaje_completado INTEGER,
+    FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
+    FOREIGN KEY (id_modulo) REFERENCES modulos(id_modulo)
+);
+
+-- TABLA: Quizzes (preguntas generadas)
+CREATE TABLE quizzes (
+    id_quiz INTEGER PRIMARY KEY,
+    id_modulo INTEGER,
+    id_contenido INTEGER,
+    pregunta TEXT,
+    tipo TEXT,  -- OPCION_MULTIPLE, VERDADERO_FALSO, RELLENAR
+    opciones TEXT,  -- JSON
+    respuesta_correcta TEXT,
+    dificultad TEXT,
+    fecha_generacion TIMESTAMP,
+    FOREIGN KEY (id_modulo) REFERENCES modulos(id_modulo),
+    FOREIGN KEY (id_contenido) REFERENCES contenido(id_contenido)
+);
+
+-- TABLA: Respuestas de Estudiantes
+CREATE TABLE respuestas (
+    id_respuesta INTEGER PRIMARY KEY,
+    id_estudiante INTEGER,
+    id_quiz INTEGER,
+    respuesta_dada TEXT,
+    es_correcta BOOLEAN,
+    tiempo_respuesta INTEGER,  -- segundos
+    fecha_respuesta TIMESTAMP,
+    FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
+    FOREIGN KEY (id_quiz) REFERENCES quizzes(id_quiz)
+);
+
+-- TABLA: Análisis de Desempeño
+CREATE TABLE desempeño (
+    id_desempeño INTEGER PRIMARY KEY,
+    id_estudiante INTEGER,
+    id_modulo INTEGER,
+    puntuacion_promedio REAL,
+    conceptos_entendidos TEXT,  -- JSON
+    conceptos_no_entendidos TEXT,  -- JSON
+    recomendaciones TEXT,
+    fecha_analisis TIMESTAMP,
+    FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
+    FOREIGN KEY (id_modulo) REFERENCES modulos(id_modulo)
+);
+
+-- TABLA: Predicciones (para Agente 7)
+CREATE TABLE predicciones (
+    id_prediccion INTEGER PRIMARY KEY,
+    id_estudiante INTEGER,
+    id_curso INTEGER,
+    nota_predicha REAL,
+    confianza REAL,  -- 0-1
+    temas_criticos TEXT,  -- JSON
+    plan_final TEXT,
+    fecha_prediccion TIMESTAMP,
+    FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
+    FOREIGN KEY (id_curso) REFERENCES cursos(id_curso)
+);
